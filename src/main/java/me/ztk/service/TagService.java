@@ -9,16 +9,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.lang.module.ResolutionException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class TagService {
-    @Autowired
-    private TagRepository tagRepository;
+    private final TagRepository tagRepository;
 
-    private TagDTO mapToDTO(Tag tag) {
+    @Autowired
+    public TagService(TagRepository tagRepository) {
+        this.tagRepository = tagRepository;
+    }
+
+    public TagDTO mapToDTO(Tag tag) {
         return new TagDTO(tag.getId(), tag.getName(), tag.getCount(), tag.getParent() != null ? tag.getParent().getName() : null, buildParentHierarchy(tag));
     }
 
@@ -34,11 +37,17 @@ public class TagService {
         return hierarchy.toString();
     }
 
-    private Tag mapToEntity(TagDTO tagDTO) {
+    public Tag mapToEntity(TagDTO tagDTO) {
+        // if exists, return the tag
+        if (tagRepository.findByName(tagDTO.getName()).isPresent()) {
+            return tagRepository.findByName(tagDTO.getName()).get();
+        }
         Tag tag = new Tag();
         tag.setName(tagDTO.getName());
         tag.setCount(tagDTO.getCount());
-        tag.setParent(tagRepository.findByName(tagDTO.getParent()).orElse(null));
+        if (tagDTO.getParent() != null) {
+            tag.setParent(tagRepository.findByName(tagDTO.getParent()).orElse(null));
+        }
         return tag;
     }
 
