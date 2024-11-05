@@ -25,7 +25,7 @@ public class TagService {
         return new TagDTO(tag.getId(), tag.getName(), tag.getCount(), tag.getParent() != null ? tag.getParent().getName() : null, buildParentHierarchy(tag));
     }
 
-    private static String buildParentHierarchy(Tag tag) {
+    public static String buildParentHierarchy(Tag tag) {
         if (tag == null) {
             return "";
         }
