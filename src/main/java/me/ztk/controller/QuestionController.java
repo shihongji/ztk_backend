@@ -1,6 +1,7 @@
 package me.ztk.controller;
 
 import me.ztk.dto.QuestionDTO;
+import me.ztk.dto.TagDTO;
 import me.ztk.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -70,5 +71,11 @@ public class QuestionController {
     public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
         questionService.deleteQuestion(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/tags")
+    public ResponseEntity<QuestionDTO> updateTags(@PathVariable Long id, @RequestBody List<TagDTO> tags) {
+        QuestionDTO question = questionService.updateTags(id, tags);
+        return ResponseEntity.ok(question);
     }
 }

@@ -113,4 +113,12 @@ public class QuestionService {
         Question question = questionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found"));
         questionRepository.delete(question);
     }
+
+    public QuestionDTO updateTags(Long id, List<TagDTO> tags) {
+        Question question = questionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found"));
+        question.setTags(tags.stream().map(tagService::mapToEntity).collect(Collectors.toSet()));
+        Question updatedQuestion = questionRepository.save(question);
+        return mapToDTO(updatedQuestion);
+    }
+
 }
