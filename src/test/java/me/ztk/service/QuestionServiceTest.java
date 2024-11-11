@@ -6,7 +6,6 @@ import me.ztk.model.Question;
 import me.ztk.model.Tag;
 import me.ztk.repository.QuestionRepository;
 import me.ztk.repository.TagRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,11 +15,10 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 
 public class QuestionServiceTest {
     @Mock
@@ -36,7 +34,7 @@ public class QuestionServiceTest {
     private QuestionService questionService;
 
     @BeforeEach
-    public  void setUp() {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
@@ -82,8 +80,10 @@ public class QuestionServiceTest {
         assertNotNull(result);
         assertEquals(2, result.getTags().size());
         // Verify that the tags are updated correctly
-        List<String> tagNames = result.getTags().stream().map(TagDTO::getName).collect(Collectors.toList());
+        List<String> tagNames = result.getTags().stream().map(TagDTO::getName).toList();
         assertTrue(tagNames.contains("Java"));
         assertTrue(tagNames.contains("JUnit"));
+
+        verify(tagService, Mockito.times(2)).mapToEntity(any(TagDTO.class));
     }
 }
