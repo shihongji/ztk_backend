@@ -19,8 +19,6 @@ public class QuestionDTO {
     private String content;
     private String answer;
     private Difficulty difficulty;
-    private int correctAnswerTime;
-    private int wrongAnswerTime;
     private List<TagDTO> tags;
     private LocalDateTime updatedAt;
 

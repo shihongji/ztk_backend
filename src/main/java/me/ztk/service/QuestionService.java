@@ -35,8 +35,6 @@ public class QuestionService {
         questionDTO.setContent(question.getContent());
         questionDTO.setAnswer(question.getAnswer());
         questionDTO.setDifficulty(question.getDifficulty());
-        questionDTO.setCorrectAnswerTime(question.getCorrectAnswerTime());
-        questionDTO.setWrongAnswerTime(question.getWrongAnswerTime());
         if (question.getTags() != null) {
             questionDTO.setTags(question.getTags().stream().map(tagService::mapToDTO).collect(Collectors.toList()));
         }
@@ -49,8 +47,6 @@ public class QuestionService {
         question.setContent(questionDTO.getContent());
         question.setAnswer(questionDTO.getAnswer());
         question.setDifficulty(questionDTO.getDifficulty());
-        question.setCorrectAnswerTime(questionDTO.getCorrectAnswerTime());
-        question.setWrongAnswerTime(questionDTO.getWrongAnswerTime());
         if (questionDTO.getTags() != null) {
             question.setTags(questionDTO.getTags().stream().map(tagService::mapToEntity).collect(Collectors.toSet()));
         }
