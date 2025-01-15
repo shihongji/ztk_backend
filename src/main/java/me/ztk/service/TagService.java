@@ -38,6 +38,7 @@ public class TagService {
     }
 
     public Tag mapToEntity(TagDTO tagDTO) {
+        System.out.println("tagDTO: " + tagDTO);
         // if exists, return the tag
         if (tagRepository.findByName(tagDTO.getName()).isPresent()) {
             return tagRepository.findByName(tagDTO.getName()).get();
